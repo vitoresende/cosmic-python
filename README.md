@@ -1,0 +1,1 @@
+Studying the book [Cosmic Python](https://www.cosmicpython.com/book/preface.html)
