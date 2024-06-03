@@ -14,6 +14,7 @@ Also, the chapter add some concepts to be in mind:
 
 ## Requirements
 * python and pip 3.8+ installed
+* sqlite3 installed
 * pipenv (`pip install pipenv`)
 
 ## Creating a local virtualenv (optional)
@@ -21,7 +22,7 @@ Also, the chapter add some concepts to be in mind:
 First create a `.venv` folder inside the root of the project.
 
 ```sh
-pipenv install pytest 
+pipenv install pytest sqlalchemy
 ```
 
 ## Running the tests

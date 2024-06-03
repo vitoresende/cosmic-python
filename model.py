@@ -2,35 +2,18 @@ from dataclasses import dataclass
 from datetime import date
 from typing import List, NewType, Optional
 
-'''
-For value objects, the hash should be based on all the value attributes, 
-and we should ensure that the objects are immutable. 
-We get this for free by specifying @frozen=True on the dataclass.
-'''
-@dataclass(frozen=True)
+
+@dataclass(unsafe_hash=True)
 class OrderLine:
-    """
-    Represents a line in an order with an order ID, SKU, and quantity.
-    This class is immutable and its hash is based on its value attributes.
-    """
     orderid: str
     sku: str
     qty: int
 
-'''
-That would allow our type checker to make sure that we don’t pass a Sku where a Reference is expected, for example.
-
-Whether you think this is wonderful or appalling is a matter of debate.
-'''
 Quantity = NewType("Quantity", int)
 Sku = NewType("Sku", str)
 Reference = NewType("Reference", str)
 
 class Batch:
-    """
-    Represents a batch of stock. A batch has a unique reference ID, a SKU, a quantity,
-    and an optional estimated time of arrival (ETA). 
-    """
     def __init__(self, ref: Reference, sku: Sku, qty: Quantity, eta: Optional[date]):
         """
         :param ref: Unique reference ID of the batch.
@@ -43,11 +26,10 @@ class Batch:
         self.eta = eta
         self._purchased_quantity = qty
         self._allocations = set()  # type: Set[OrderLine]
+
+    def __repr__(self):
+        return f"<Batch {self.reference}>"
     
-    '''
-    You may or may not like the use of next() in the allocate method, but we're pretty sure you'll agree that being able to use sorted()
-      on our list of batches is nice, idiomatic Python. To make it work, we implement __gt__ on our domain model:
-    '''
     def __gt__(self, other):
         """
         Compare batches based on their ETA. A batch with no ETA is considered less than a batch with an ETA.
