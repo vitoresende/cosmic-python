@@ -2,6 +2,12 @@ from dataclasses import dataclass
 from datetime import date
 from typing import List, NewType, Optional
 
+'''
+By adding unsafe_hash, you're instructing Python to generate a hash function for the OrderLine class, 
+which is necessary for certain operations, such as using instances of OrderLine as keys in dictionaries or as elements in sets.
+
+While the unsafe_hash option allows hashing, it does not inherently affect the immutability of the dataclass. 
+'''
 
 @dataclass(unsafe_hash=True)
 class OrderLine:
